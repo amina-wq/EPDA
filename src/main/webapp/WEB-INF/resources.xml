@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<Resource id="mysql" type="DataSource">
+		JdbcDriver = com.mysql.cj.jdbc.Driver
+		JdbcUrl = jdbc:mysql://localhost:3306/crs_db
+		UserName = root
+		Password = admin
+		JtaManaged = true
+		InitialSize = 3
+		MaxActive = 10
+		ValidationQuery = SELECT 1
+	</Resource>
+</resources>
