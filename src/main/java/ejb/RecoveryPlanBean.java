@@ -10,7 +10,7 @@ import jakarta.ejb.Stateless;
 @Stateless
 @LocalBean
 public class RecoveryPlanBean {
-	
+
 	@Resource(name = "mysql")
 	private DataSource dataSource;
 

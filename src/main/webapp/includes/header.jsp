@@ -7,10 +7,44 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="${pageContext.request.contextPath}/dashboard.jsp" class="${pageContext.request.servletPath == '/dashboard.jsp' ? 'active' : ''}">Dashboard</a>
-    <a href="${pageContext.request.contextPath}/check_eligibility" class="${pageContext.request.servletPath == '/check_eligibility' ? 'active' : ''}">Eligibility Check</a>
-    <a href="${pageContext.request.contextPath}/reports" class="${pageContext.request.servletPath == '/reports' ? 'active' : ''}">Reports</a>
-    <a href="${pageContext.request.contextPath}/users" class="${pageContext.request.servletPath == '/users' ? 'active' : ''}">User Management</a>
+    <c:set var="currentUri" value="${pageContext.request.requestURI}" />
+    
+    <a href="${pageContext.request.contextPath}/" 
+       class="${currentUri == pageContext.request.contextPath || currentUri == pageContext.request.contextPath.concat('/') ? 'active' : ''}">
+       Dashboard
+    </a>
+    
+    <a href="${pageContext.request.contextPath}/students"
+       class="${currentUri == pageContext.request.contextPath || currentUri == pageContext.request.contextPath.concat('/students') ? 'active' : ''}">
+       All Students
+    </a>
+    
+    <a href="${pageContext.request.contextPath}/check_eligibility" 
+       class="${currentUri.contains('/check_eligibility') ? 'active' : ''}">
+       Eligibility Check
+    </a>
+    
+     <a href="${pageContext.request.contextPath}/recovery_plans" 
+       class="${currentUri.contains('/recovery_plans') ? 'active' : ''}">
+       Recovery Plans
+    </a>
+    
+    <a href="${pageContext.request.contextPath}/reports" 
+       class="${currentUri.contains('/reports') ? 'active' : ''}">
+       Reports
+    </a>
+    
+    <c:if test="${sessionScope.userRole == 'ADMIN'}">
+	   <a href="${pageContext.request.contextPath}/users" 
+	      class="${currentUri.contains('/users') ? 'active' : ''}">
+	      User Management
+	   </a>
+    </c:if>
+    
+    <a href="${pageContext.request.contextPath}/notifications" 
+       class="${currentUri.contains('/notifications') ? 'active' : ''}">
+       Notifications
+    </a>
     
     <div class="navbar-right">
         <c:choose>
