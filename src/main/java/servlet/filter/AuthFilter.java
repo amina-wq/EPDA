@@ -29,20 +29,10 @@ public class AuthFilter implements Filter {
 
     private static final Set<String> ADMIN_ONLY_PAGES = new HashSet<>(Arrays.asList(
         "/users",
-        "/create_user",
         "/edit_user",
-        "/delete_user"
-    )); // for example
-
-    private static final Set<String> STAFF_PAGES = new HashSet<>(Arrays.asList(
-        "/students",
-        "/check_eligibility",
-        "/confirm_registration",
-        "/recovery_plans",
-        "/reports",
-        "/performance_dashboard",
+        "/register",
         "/notifications"
-    )); // for example
+    ));
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -104,11 +94,6 @@ public class AuthFilter implements Filter {
     }
 
     private boolean isStaffPage(String path) {
-        for (String staffPath : STAFF_PAGES) {
-            if (path.equals(staffPath) || path.startsWith(staffPath)) {
-                return true;
-            }
-        }
-        return false;
+        return !(isAdminOnlyPage(path) | isPublicPage(path));
     }
 }
