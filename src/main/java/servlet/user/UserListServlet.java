@@ -10,6 +10,7 @@ import ejb.NotificationBean;
 import model.User;
 import model.Notification;
 
+
 @WebServlet("/users")
 public class UserListServlet extends HttpServlet {
     @EJB private UserBean userBean;
@@ -17,18 +18,10 @@ public class UserListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("userList", userBean.getAllUsers());
-        req.getRequestDispatcher("userList.jsp").forward(req, res);
+        req.getRequestDispatcher("user/userList.jsp").forward(req, res);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        User admin = (User) req.getSession().getAttribute("user");
-        
-        // --- THE BOUNCER FIX: Prevents 500 Error ---
-        if (admin == null) {
-            res.sendRedirect(req.getContextPath() + "/login.jsp?error=session_expired");
-            return;
-        }
-
         String idStr = req.getParameter("userId");
         String action = req.getParameter("action");
         String status = "error";

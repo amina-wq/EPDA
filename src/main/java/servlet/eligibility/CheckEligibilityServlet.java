@@ -17,13 +17,12 @@ public class CheckEligibilityServlet extends HttpServlet {
 
 	@EJB
     private EligibilityCheckBean eligibilityBean;
-	
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> dashboardStats = eligibilityBean.getEligibilityDashboardStats();
-        
-        request.setAttribute("ineligibleStudents", dashboardStats.get("ineligibleStudents"));
         request.setAttribute("dashboardStats", dashboardStats);
-        
+
         request.getRequestDispatcher("/eligibility/checkEligibility.jsp").forward(request, response);
     }
 }

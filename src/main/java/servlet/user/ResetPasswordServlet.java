@@ -10,6 +10,7 @@ import ejb.NotificationBean;
 import model.Notification;
 import model.User;
 
+
 @WebServlet("/reset_password")
 public class ResetPasswordServlet extends HttpServlet {
     @EJB private UserBean userBean;
@@ -21,13 +22,12 @@ public class ResetPasswordServlet extends HttpServlet {
         String newPass = req.getParameter("newPassword");
         String confirm = req.getParameter("confirmPassword");
 
-        // FIXED: Use the new email-based authentication method
         User user = userBean.authenticateByEmail(email, currentPass);
 
         if (user != null) {
             if (newPass != null && newPass.equals(confirm)) {
                 if (userBean.resetPasswordByEmail(email, newPass)) {
-                    // Task 5 Alert
+
                     Notification n = new Notification();
                     n.setRecipientId(email);
                     n.setType("SECURITY_ALERT");
@@ -35,15 +35,15 @@ public class ResetPasswordServlet extends HttpServlet {
                     n.setContent("Your password has been updated.");
                     notificationBean.sendEmailNotification(n);
 
-                    res.sendRedirect("login.jsp?message=reset_success");
+                    req.getRequestDispatcher("/user/login.jsp?message=reset_success").forward(req, res);
                 } else {
-                    res.sendRedirect("resetPassword.jsp?error=db_error");
+                    req.getRequestDispatcher("/user/resetPassword.jsp?error=db_error").forward(req, res);
                 }
             } else {
-                res.sendRedirect("resetPassword.jsp?error=mismatch");
+                req.getRequestDispatcher("/user/resetPassword.jsp?error=mismatch").forward(req, res);
             }
         } else {
-            res.sendRedirect("resetPassword.jsp?error=invalid_current");
+            req.getRequestDispatcher("/user/resetPassword.jsp?error=invalid_current").forward(req, res);
         }
     }
 }

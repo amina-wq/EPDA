@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import model.User;
 
+
 @Stateless
 public class UserBean {
 
-    // Grabs the connection Amina set up in the server
     @Resource(name = "mysql")
     private DataSource ds;
 
-    // F1: Login Logic
     public User authenticateUser(String username, String password) {
         try (Connection conn = ds.getConnection()) {
             String sql = "SELECT * FROM user WHERE username = ? AND password = ? AND active = 1";
@@ -28,17 +27,14 @@ public class UserBean {
         return null;
     }
 
-    // F1: Reset by ID (Matches UserListServlet)
     public boolean resetPassword(Long id, String pass) {
         return executeUpdate("UPDATE user SET password = ? WHERE id = ?", pass, id);
     }
 
-    // F1: Reset by Email (Matches ResetPasswordServlet - THE RED LINE FIX)
     public boolean resetPasswordByEmail(String email, String pass) {
         return executeUpdate("UPDATE user SET password = ? WHERE email = ?", pass, email);
     }
 
-    // F1: Toggle Status
     public boolean updateUserStatus(Long id, boolean active) {
         return executeUpdate("UPDATE user SET active = ? WHERE id = ?", active, id);
     }
@@ -89,7 +85,7 @@ public class UserBean {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
     }
-    
+
     public boolean updateUser(Long id, String username, String email, String role) {
         String sql = "UPDATE user SET username = ?, email = ?, role = ? WHERE id = ?";
         try (Connection conn = ds.getConnection()) {
@@ -104,7 +100,7 @@ public class UserBean {
             return false;
         }
     }
-    
+
     public User authenticateByEmail(String email, String password) {
         try (Connection conn = ds.getConnection()) {
             String sql = "SELECT * FROM user WHERE email = ? AND password = ? AND active = 1";
@@ -113,23 +109,22 @@ public class UserBean {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return mapUser(rs);
-        } catch (SQLException e) { 
-            e.printStackTrace(); 
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
-    
+
     public boolean registerUser(String username, String email, String password, String role) {
-        // We set 'active' to 1 (true) by default for new staff
         String sql = "INSERT INTO user (username, email, password, role, active) VALUES (?, ?, ?, ?, 1)";
-        
+
         try (Connection conn = ds.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, email);
             ps.setString(3, password);
             ps.setString(4, role);
-            
+
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

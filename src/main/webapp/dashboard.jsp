@@ -1,42 +1,92 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="model.User" %>
-
-<%
-    // SESSION BOUNCER
-    if (session.getAttribute("user") == null) {
-        response.sendRedirect("login.jsp?error=please_login");
-        return; 
-    }
-%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="/includes/header.jsp" />
-
-<div class="container" style="padding: 20px; text-align: center; min-height: 450px;">
-    <% if ("sent".equals(request.getParameter("status"))) { %>
-        <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
-            <strong>Success!</strong> Notification has been sent and logged.
+<div class="container">
+    <h1>Dashboard</h1>
+    <p>
+        Welcome to Course Recovery System, <strong>${sessionScope.user.username}</strong>!
+    </p>
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-value">${totalStudents}</div>
+            <div class="stat-label">Total Students</div>
         </div>
-    <% } %>
-
-    <h1>Staff Dashboard</h1>
-    <p>Logged in as: <strong>${user.username}</strong> | Role: <strong style="color: #007bff;">${user.role}</strong></p>
-    <hr style="width: 50%; margin: 20px auto;">
-
-    <div class="menu-options" style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
-        
-        <c:if test="${user.role == 'ADMIN'}">
-            <a href="${pageContext.request.contextPath}/users" style="display:block; width: 250px; padding: 12px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">View All Staff</a>
-            <a href="register.jsp" style="display:block; width: 250px; padding: 12px; background: #17a2b8; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Register New Staff</a>
+        <div class="stat-card warning">
+            <div class="stat-value">${ineligibleCount}</div>
+            <div class="stat-label">Not Eligible</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">${activePlans}</div>
+            <div class="stat-label">Active Recovery Plans</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">${completedPlans}</div>
+            <div class="stat-label">Completed Plans</div>
+        </div>
+    </div>
+    <h2>System Modules</h2>
+    <div class="dashboard-grid">
+        <a href="${pageContext.request.contextPath}/students" class="dashboard-card">
+            <div class="card-icon">👥</div>
+            <h3>All Students</h3>
+            <p>View and manage student records</p>
+            <div class="card-footer">
+                <span class="badge badge-info">${totalStudents} students</span>
+            </div>
+        </a>
+        <a href="${pageContext.request.contextPath}/check_eligibility" class="dashboard-card">
+            <div class="card-icon">✅</div>
+            <h3>Eligibility Check</h3>
+            <p>Check student progression eligibility</p>
+            <div class="card-footer">
+                <c:choose>
+                    <c:when test="${ineligibleCount > 0}">
+                        <span class="badge badge-warning">${ineligibleCount} not
+                        eligible</span>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="badge badge-success">All eligible</span>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </a>
+        <a href="${pageContext.request.contextPath}/recovery_plans" class="dashboard-card">
+            <div class="card-icon">📋</div>
+            <h3>Recovery Plans</h3>
+            <p>Manage course recovery plans</p>
+            <div class="card-footer">
+                <span class="badge badge-warning">${activePlans} active</span> <span
+                    class="badge badge-success">${completedPlans} completed</span>
+            </div>
+        </a>
+        <a href="${pageContext.request.contextPath}/reports" class="dashboard-card">
+            <div class="card-icon">📊</div>
+            <h3>Academic Reports</h3>
+            <p>Generate performance reports</p>
+            <div class="card-footer">
+                <span class="badge badge-info">By semester & program</span>
+            </div>
+        </a>
+        <c:if test="${sessionScope.userRole == 'ADMIN'}">
+            <a href="${pageContext.request.contextPath}/users" class="dashboard-card">
+                <div class="card-icon">👤</div>
+                <h3>User Management</h3>
+                <p>Manage system users and roles</p>
+                <div class="card-footer">
+                    <span class="badge badge-info">Administrators & Officers</span>
+                </div>
+            </a>
         </c:if>
-
-        <a href="${pageContext.request.contextPath}/user/sendNotification.jsp" style="display:block; width: 250px; padding: 12px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Send Student Alert</a>
-		
-        <c:if test="${user.role == 'ADMIN'}">
-            <a href="${pageContext.request.contextPath}/NotificationLogServlet" style="display: block; width: 250px; padding: 12px; background-color: #f39c12; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">View Notification Logs</a>
-        </c:if>
+        <a href="${pageContext.request.contextPath}/notifications" class="dashboard-card">
+            <div class="card-icon">📧</div>
+            <h3>Notifications</h3>
+            <p>View and manage email notifications</p>
+            <div class="card-footer">
+                <span class="badge badge-info">${pendingNotifications}
+                pending</span>
+            </div>
+        </a>
     </div>
 </div>
-
-<%-- FIXED: Changed from header to footer --%>
 <jsp:include page="/includes/footer.jsp" />

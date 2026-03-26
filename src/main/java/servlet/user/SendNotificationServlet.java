@@ -9,6 +9,7 @@ import ejb.UserBean;
 import ejb.NotificationBean;
 import model.Notification;
 
+
 @WebServlet("/sendNotification")
 public class SendNotificationServlet extends HttpServlet {
     @EJB private NotificationBean notificationBean;
@@ -16,7 +17,7 @@ public class SendNotificationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String recipient = req.getParameter("recipientId");
-        
+
         if (userBean.isStudentValid(recipient)) {
             Notification n = new Notification();
             n.setRecipientId(recipient);
@@ -25,9 +26,9 @@ public class SendNotificationServlet extends HttpServlet {
             n.setContent(req.getParameter("content"));
 
             notificationBean.sendEmailNotification(n);
-            res.sendRedirect("dashboard.jsp?status=sent");
+            res.sendRedirect(request.getContextPath() + "/");
         } else {
-            res.sendRedirect("sendNotification.jsp?error=invalid_student");
+            req.getRequestDispatcher("/user/sendNotification.jsp?error=invalid_student").forward(request, response);
         }
     }
 }
