@@ -16,6 +16,10 @@ public class ResetPasswordServlet extends HttpServlet {
     @EJB private UserBean userBean;
     @EJB private NotificationBean notificationBean;
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	req.getRequestDispatcher("/user/resetPassword.jsp").forward(req, res);
+    }
+    
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String email = req.getParameter("email");
         String currentPass = req.getParameter("currentPassword");

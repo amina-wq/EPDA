@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,10 +42,12 @@
 	   </a>
     </c:if>
     
-    <a href="${pageContext.request.contextPath}/notifications" 
-       class="${currentUri.contains('/notifications') ? 'active' : ''}">
-       Notifications
-    </a>
+    <c:if test="${sessionScope.userRole == 'ADMIN'}">
+	    <a href="${pageContext.request.contextPath}/notifications" 
+	       class="${currentUri.contains('/notifications') ? 'active' : ''}">
+	       Notifications
+	    </a>
+    </c:if>
     
     <div class="navbar-right">
         <c:choose>
@@ -57,7 +60,7 @@
                 </span>
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/user/login.jsp">Login</a>
+                <a href="${pageContext.request.contextPath}/login">Login</a>
             </c:otherwise>
         </c:choose>
     </div>

@@ -15,6 +15,10 @@ public class SendNotificationServlet extends HttpServlet {
     @EJB private NotificationBean notificationBean;
     @EJB private UserBean userBean;
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        req.getRequestDispatcher("/user/sendNotification.jsp").forward(req, res);
+    }
+
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String recipient = req.getParameter("recipientId");
 
@@ -26,9 +30,9 @@ public class SendNotificationServlet extends HttpServlet {
             n.setContent(req.getParameter("content"));
 
             notificationBean.sendEmailNotification(n);
-            res.sendRedirect(request.getContextPath() + "/");
+            res.sendRedirect(req.getContextPath() + "/sendNotification?status=success");
         } else {
-            req.getRequestDispatcher("/user/sendNotification.jsp?error=invalid_student").forward(request, response);
+            res.sendRedirect(req.getContextPath() + "/sendNotification?status=error");
         }
     }
 }

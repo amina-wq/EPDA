@@ -22,7 +22,9 @@ public class UserListServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String idStr = req.getParameter("userId");
+    	User admin = (User) req.getSession().getAttribute("user");
+    	
+    	String idStr = req.getParameter("userId");
         String action = req.getParameter("action");
         String status = "error";
 

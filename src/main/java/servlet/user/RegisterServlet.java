@@ -20,10 +20,8 @@ public class RegisterServlet extends HttpServlet {
         String password = req.getParameter("password");
         String role = req.getParameter("role");
 
-        // Attempt to save to database
         if (userBean.registerUser(username, email, password, role)) {
             
-            // Task 5: Log the creation of a new staff account
             Notification n = new Notification();
             n.setRecipientId(email);
             n.setType("ACCOUNT_CREATED");
@@ -33,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
 
             res.sendRedirect("users?status=registered");
         } else {
-            res.sendRedirect("register.jsp?error=failed");
+            res.sendRedirect("/user/register.jsp?error=failed");
         }
     }
 }

@@ -14,9 +14,7 @@ public class NotificationBean {
     @Resource(name = "mysql")
     private DataSource ds;
 
-    // F3: Send Notification Logic (Saves to the 'notification' table)
     public boolean sendEmailNotification(Notification n) {
-        // Updated table name and columns based on your MySQL screenshot
         String sql = "INSERT INTO notification (recipient_id, type, subject, content, status, created_at) VALUES (?, ?, ?, ?, 'SENT', NOW())";
         
         try (Connection conn = ds.getConnection()) {
@@ -33,10 +31,8 @@ public class NotificationBean {
         }
     }
 
-    // F3: Retrieve All Notifications for the Admin Log
     public List<Notification> getAllNotifications() {
         List<Notification> logs = new ArrayList<>();
-        // Updated table name to 'notification'
         String sql = "SELECT * FROM notification ORDER BY id DESC"; 
         
         try (Connection conn = ds.getConnection()) {
@@ -54,11 +50,13 @@ public class NotificationBean {
 
     private Notification mapNotification(ResultSet rs) throws SQLException {
         Notification n = new Notification();
+        n.setId(rs.getLong("id"));
         n.setRecipientId(rs.getString("recipient_id"));
         n.setType(rs.getString("type"));
         n.setSubject(rs.getString("subject"));
         n.setContent(rs.getString("content"));
-        // You can add n.setStatus(rs.getString("status")) if your model has it
+        n.setSentAt(rs.getDate("sent_at"));
+        n.setStatus(rs.getString("status"));
         return n;
     }
 }

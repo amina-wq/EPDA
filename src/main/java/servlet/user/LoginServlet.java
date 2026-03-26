@@ -9,7 +9,7 @@ import ejb.UserBean;
 import model.User;
 
 
-@WebServlet("/LoginServlet")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     @EJB private UserBean userBean;
 
@@ -34,13 +34,14 @@ public class LoginServlet extends HttpServlet {
         if (authenticatedUser != null) {
             HttpSession session = req.getSession();
             session.setAttribute("user", authenticatedUser);
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userRole", user.getRole());
-            session.setAttribute("username", user.getUsername());
+            session.setAttribute("userId", authenticatedUser.getId());
+            session.setAttribute("userRole", authenticatedUser.getRole());
+            session.setAttribute("username", authenticatedUser.getUsername());
 
             res.sendRedirect(req.getContextPath() + "/");
         } else {
-            res.sendRedirect(req.getContextPath() + "/user/login.jsp?error=invalid");
+        	req.setAttribute("error", "Invalid username or password");
+        	req.getRequestDispatcher("/user/login.jsp").forward(req, res);
         }
     }
 }

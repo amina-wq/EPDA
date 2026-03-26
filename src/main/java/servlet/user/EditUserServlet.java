@@ -10,7 +10,8 @@ import ejb.NotificationBean;
 import model.User;
 import model.Notification;
 
-@WebServlet("/editUser")
+
+@WebServlet("/edit_user")
 public class EditUserServlet extends HttpServlet {
     @EJB private UserBean userBean;
     @EJB private NotificationBean notificationBean;
@@ -21,7 +22,7 @@ public class EditUserServlet extends HttpServlet {
             Long id = Long.parseLong(idParam);
             User u = userBean.getUserById(id);
             req.setAttribute("targetUser", u);
-            req.getRequestDispatcher("editUser.jsp").forward(req, res);
+            req.getRequestDispatcher("/user/editUser.jsp").forward(req, res);
         } else {
             res.sendRedirect("users");
         }
@@ -34,7 +35,6 @@ public class EditUserServlet extends HttpServlet {
         String role = req.getParameter("role");
 
         if (userBean.updateUser(id, username, email, role)) {
-            // Task 5 Integration: Log the edit as a notification
             Notification n = new Notification();
             n.setRecipientId(email);
             n.setType("SECURITY_ALERT");
@@ -44,7 +44,8 @@ public class EditUserServlet extends HttpServlet {
 
             res.sendRedirect("users?status=updated");
         } else {
-            res.sendRedirect("editUser?id=" + id + "&error=failed");
+            res.sendRedirect("edit_user?id=" + id + "&error=failed");
         }
     }
 }
+
