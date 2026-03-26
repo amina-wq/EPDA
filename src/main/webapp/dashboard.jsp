@@ -78,6 +78,16 @@
                 </div>
             </a>
         </c:if>
+        <c:if test="${sessionScope.userRole == 'ADMIN'}">
+            <a href="${pageContext.request.contextPath}/register" class="dashboard-card">
+                <div class="card-icon">➕</div>
+                <h3>Create New User</h3>
+                <p>Add a new administrator or academic officer</p>
+                <div class="card-footer">
+                    <span class="badge badge-success">New user</span>
+                </div>
+            </a>
+        </c:if>
         <a href="${pageContext.request.contextPath}/sendNotification" class="dashboard-card">
            <div class="card-icon">📧</div>
            <h3>Send Notifications</h3>

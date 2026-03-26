@@ -9,11 +9,17 @@ import ejb.UserBean;
 import ejb.NotificationBean;
 import model.Notification;
 
+
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     @EJB private UserBean userBean;
     @EJB private NotificationBean notificationBean;
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	req.getRequestDispatcher("/user/register.jsp").forward(req, res);
+    }
+    
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
@@ -29,9 +35,9 @@ public class RegisterServlet extends HttpServlet {
             n.setContent("A new " + role + " account has been created for " + username);
             notificationBean.sendEmailNotification(n);
 
-            res.sendRedirect("users?status=registered");
+            res.sendRedirect(req.getContextPath() + "/users?status=registered");
         } else {
-            res.sendRedirect("/user/register.jsp?error=failed");
+            res.sendRedirect(req.getContextPath() + "/user/register?error=failed");
         }
     }
 }
