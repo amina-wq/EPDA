@@ -1,26 +1,29 @@
 package servlet.user;
 
-import java.io.IOException;
-
-import ejb.UserBean;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import ejb.UserBean;
+import model.User;
 
-
-@WebServlet("/login")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    @EJB private UserBean userBean;
 
-	@EJB
-    private UserBean userBean;
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        String u = req.getParameter("username");
+        String p = req.getParameter("password");
+        
+        User authenticatedUser = userBean.authenticateUser(u, p);
+        
+        if (authenticatedUser != null) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", authenticatedUser);
+            res.sendRedirect(req.getContextPath() + "/dashboard.jsp");
+        } else {
+            res.sendRedirect(req.getContextPath() + "/login.jsp?error=invalid");
+        }
+    }
 }
