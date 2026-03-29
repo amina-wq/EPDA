@@ -2,7 +2,7 @@
 <resources>
 	<Resource id="mysql" type="DataSource">
 		JdbcDriver = com.mysql.cj.jdbc.Driver
-		JdbcUrl = jdbc:mysql://localhost:3306/crs_db
+		JdbcUrl = jdbc:mysql://localhost:3306/crs_db?createDatabaseIfNotExist=true
 		UserName = root
 		Password = admin
 		JtaManaged = true

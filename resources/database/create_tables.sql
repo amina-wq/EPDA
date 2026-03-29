@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS user (
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL, -- 'ADMIN' или 'OFFICER'
+    role VARCHAR(20) NOT NULL,
     active BOOLEAN DEFAULT TRUE
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS enrollment (
     semester VARCHAR(50) NOT NULL,
     grade FLOAT,
     attempt_number INT DEFAULT 1 CHECK (attempt_number BETWEEN 1 AND 3),
-    status VARCHAR(20) DEFAULT 'IN_PROGRESS', -- 'PASSED', 'FAILED', 'IN_PROGRESS'
+    status VARCHAR(20) DEFAULT 'IN_PROGRESS',
     
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS enrollment (
 CREATE TABLE IF NOT EXISTS failed_component (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     enrollment_id BIGINT NOT NULL,
-    component_type VARCHAR(50) NOT NULL, -- 'ASSIGNMENT', 'EXAM', 'QUIZ', 'PROJECT'
+    component_type VARCHAR(50) NOT NULL,
     component_name VARCHAR(100) NOT NULL,
     score FLOAT NOT NULL,
     passing_score FLOAT NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS recovery_plan (
     course_id VARCHAR(20) NOT NULL,
     start_date DATE,
     end_date DATE,
-    status VARCHAR(20) DEFAULT 'ACTIVE', -- 'ACTIVE', 'COMPLETED', 'CANCELLED'
+    status VARCHAR(20) DEFAULT 'ACTIVE',
     
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS recovery_milestone (
     week_range VARCHAR(50) NOT NULL,
     task TEXT NOT NULL,
     deadline DATE,
-    status VARCHAR(20) DEFAULT 'PENDING', -- 'PENDING', 'IN_PROGRESS', 'COMPLETED'
+    status VARCHAR(20) DEFAULT 'PENDING',
     grade FLOAT,
     comments TEXT,
     
@@ -78,11 +78,11 @@ CREATE TABLE IF NOT EXISTS recovery_milestone (
 
 CREATE TABLE IF NOT EXISTS notification (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    recipient_id VARCHAR(50) NOT NULL, -- student_id или user_id
-    type VARCHAR(50) NOT NULL, -- 'ACCOUNT_CREATED', 'PASSWORD_RESET', 'RECOVERY_PLAN_CREATED', 'REPORT_READY'
+    recipient_id VARCHAR(50) NOT NULL,
+    type VARCHAR(50) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     content TEXT NOT NULL,
     sent_at TIMESTAMP NULL,
-    status VARCHAR(20) DEFAULT 'PENDING', -- 'PENDING', 'SENT', 'FAILED'
+    status VARCHAR(20) DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
