@@ -93,7 +93,7 @@
                     <c:forEach items="${students}" var="student">
                         <tr>
                             <td><strong> <a
-                                href="${pageContext.request.contextPath}/student_recovery?studentId=${student.studentId}"
+                                href="${pageContext.request.contextPath}/recovery_plans?search=${student.studentId}"
                                 class="student-link"> ${student.studentId} </a>
                                 </strong>
                             </td>
@@ -117,7 +117,7 @@
                                 </c:choose>
                             </td>
                             <td class="action-buttons"><a
-                                href="${pageContext.request.contextPath}/student_recovery?studentId=${student.studentId}"
+                                href="${pageContext.request.contextPath}/recovery_plans?search=${student.studentId}"
                                 class="btn btn-info btn-small">Recovery Plan</a></td>
                         </tr>
                     </c:forEach>
