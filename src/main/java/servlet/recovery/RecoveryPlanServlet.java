@@ -43,10 +43,10 @@ public class RecoveryPlanServlet extends HttpServlet {
             request.setAttribute("searchVal", search);
             request.setAttribute("selectedProgram", program);
             
-            // Double check this path! 
+            
             request.getRequestDispatcher("/recovery/studentRecovery.jsp").forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace(); // Log the error to the Eclipse console
+            e.printStackTrace();
             throw new ServletException(e);
         }
     }

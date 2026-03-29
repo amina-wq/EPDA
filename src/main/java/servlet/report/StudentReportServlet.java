@@ -45,7 +45,7 @@ public class StudentReportServlet extends HttpServlet {
             
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle error (perhaps redirect to an error page)
+            // Handle error 
             throw new ServletException("Error retrieving report for student: " + studentId, e);
         }
     }

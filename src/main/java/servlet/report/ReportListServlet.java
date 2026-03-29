@@ -36,7 +36,7 @@ public class ReportListServlet extends HttpServlet {
             request.setAttribute("studentList", studentList);
             request.setAttribute("programs", programs);
             
-            // 4. Send back the current filter values so they stay in the boxes
+            // 4. Send back the current filter values 
             request.setAttribute("searchVal", search);
             request.setAttribute("selectedProgram", program);
 
