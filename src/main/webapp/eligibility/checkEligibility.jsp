@@ -63,13 +63,15 @@
                 <tbody>
                     <c:forEach items="${dashboardStats.ineligibleStudents}" var="item">
                         <tr>
-                            <td><strong> <a
-                                href="${pageContext.request.contextPath}/student_recovery?studentId=${item.student.studentId}"
-                                class="student-link"
-                                title="View recovery plans for ${item.student.name}">
-                                ${item.student.studentId} </a>
-                                </strong>
-                            </td>
+                            <td style="padding: 12px;">
+							    <strong> 
+							        <a href="${pageContext.request.contextPath}/recovery_plans?search=${item.student.studentId}" 
+							           class="student-link" 
+							           title="View recovery plans for ${item.student.name}">
+							            ${item.student.studentId}
+							        </a>
+							    </strong>
+							</td>
                             <td>${item.student.name}</td>
                             <td>${item.student.program}</td>
                             <td>

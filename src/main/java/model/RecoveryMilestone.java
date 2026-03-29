@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 import java.util.Date;
 
-
 public class RecoveryMilestone implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -13,7 +12,9 @@ public class RecoveryMilestone implements Serializable {
     private String task;
     private Date deadline;
     private String status; // "PENDING", "IN_PROGRESS", "COMPLETED"
-    private float grade;
+
+    private Float grade; 
+    
     private String comments;
 
     public RecoveryMilestone() {}
@@ -36,8 +37,8 @@ public class RecoveryMilestone implements Serializable {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public float getGrade() { return grade; }
-    public void setGrade(float grade) { this.grade = grade; }
+    public Float getGrade() { return grade; }
+    public void setGrade(Float grade) { this.grade = grade; }
 
     public String getComments() { return comments; }
     public void setComments(String comments) { this.comments = comments; }
