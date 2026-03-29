@@ -92,14 +92,14 @@
                             <td class="action-buttons">
                                 <form
                                     action="${pageContext.request.contextPath}/confirm_registration"
-                                    method="post" style="margin: 0px 0px 4px 0pxz;">
+                                    method="post" style="margin: 0px 0px 4px 0px;">
                                     <input type="hidden" name="studentId"
                                         value="${item.student.studentId}">
                                     <button type="submit" class="btn btn-primary btn-small"
                                         onclick="return confirm('Confirm registration for ${item.student.name}?')">
                                     Confirm Registration</button>
                                 </form>
-                                <a href="${pageContext.request.contextPath}/recovery_plans?search=${student.studentId}" class="btn btn-info btn-small">Recovery Plan</a>
+                                <a href="${pageContext.request.contextPath}/recovery_plans?search=${item.student.studentId}" class="btn btn-info btn-small">Recovery Plan</a>
                             </td>
                         </tr>
                     </c:forEach>
