@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <jsp:include page="/includes/header.jsp" />
 <div class="container">
     <h1>Dashboard</h1>
@@ -78,15 +78,35 @@
                 </div>
             </a>
         </c:if>
-        <a href="${pageContext.request.contextPath}/notifications" class="dashboard-card">
-            <div class="card-icon">📧</div>
-            <h3>Notifications</h3>
-            <p>View and manage email notifications</p>
-            <div class="card-footer">
-                <span class="badge badge-info">${pendingNotifications}
-                pending</span>
-            </div>
-        </a>
+        <c:if test="${sessionScope.userRole == 'ADMIN'}">
+            <a href="${pageContext.request.contextPath}/register" class="dashboard-card">
+                <div class="card-icon">➕</div>
+                <h3>Create New User</h3>
+                <p>Add a new administrator or academic officer</p>
+                <div class="card-footer">
+                    <span class="badge badge-success">New user</span>
+                </div>
+            </a>
+        </c:if>
+        <a href="${pageContext.request.contextPath}/sendNotification" class="dashboard-card">
+           <div class="card-icon">📧</div>
+           <h3>Send Notifications</h3>
+           <p>Send official alerts or academic updates to students</p>
+           <div class="card-footer">
+               <span class="badge badge-info">Fill form</span>
+           </div>
+       </a>
+        <c:if test="${sessionScope.userRole == 'ADMIN'}">
+	        <a href="${pageContext.request.contextPath}/notifications" class="dashboard-card">
+	            <div class="card-icon">📧</div>
+	            <h3>Notifications</h3>
+	            <p>View and manage email notifications</p>
+	            <div class="card-footer">
+	                <span class="badge badge-info">${pendingNotifications}
+	                pending</span>
+	            </div>
+	        </a>
+        </c:if>
     </div>
 </div>
 <jsp:include page="/includes/footer.jsp" />

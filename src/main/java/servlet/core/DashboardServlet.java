@@ -26,6 +26,6 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("completedPlans", dashboardBean.getCompletedPlansCount());
         request.setAttribute("pendingNotifications", dashboardBean.getPendingNotificationsCount());
 
-        request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/core/dashboard.jsp").forward(request, response);
     }
 }
