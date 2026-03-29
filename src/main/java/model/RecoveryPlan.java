@@ -13,11 +13,50 @@ public class RecoveryPlan implements Serializable {
     private Date startDate;
     private Date endDate;
     private String status; // "ACTIVE", "COMPLETED", "CANCELLED"
+    
+    private String semester;
+    private Integer attemptNumber;
+    private Float failedGrade; // Updated to Float for consistency/null support
+
+    // NEW FIELDS FOR STUDENT PERFORMANCE CONTEXT
+    private Long enrollmentId;
+    private String componentType;
+    private String componentName;
+    private Float score;
+    private Float passingScore;
 
     // Computed Fields
     private List<RecoveryMilestone> milestones;
     private Student student;
     private Course course;
+
+    public RecoveryPlan() {}
+
+    // NEW GETTERS AND SETTERS
+    public Long getEnrollmentId() { return enrollmentId; }
+    public void setEnrollmentId(Long enrollmentId) { this.enrollmentId = enrollmentId; }
+
+    public String getComponentType() { return componentType; }
+    public void setComponentType(String componentType) { this.componentType = componentType; }
+
+    public String getComponentName() { return componentName; }
+    public void setComponentName(String componentName) { this.componentName = componentName; }
+
+    public Float getScore() { return score; }
+    public void setScore(Float score) { this.score = score; }
+
+    public Float getPassingScore() { return passingScore; }
+    public void setPassingScore(Float passingScore) { this.passingScore = passingScore; }
+
+    // ORIGINAL GETTERS AND SETTERS
+    public String getSemester() { return semester; }
+    public void setSemester(String semester) { this.semester = semester; }
+
+    public Integer getAttemptNumber() { return attemptNumber; }
+    public void setAttemptNumber(Integer attemptNumber) { this.attemptNumber = attemptNumber; }
+
+    public Float getFailedGrade() { return failedGrade; }
+    public void setFailedGrade(Float failedGrade) { this.failedGrade = failedGrade; }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
