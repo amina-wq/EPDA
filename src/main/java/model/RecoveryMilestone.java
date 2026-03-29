@@ -12,8 +12,7 @@ public class RecoveryMilestone implements Serializable {
     private String task;
     private Date deadline;
     private String status; // "PENDING", "IN_PROGRESS", "COMPLETED"
-    
-    // Updated to Float object to support NULL values in the database
+
     private Float grade; 
     
     private String comments;

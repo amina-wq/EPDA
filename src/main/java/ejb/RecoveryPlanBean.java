@@ -22,9 +22,6 @@ public class RecoveryPlanBean {
         return getFilteredPlans(null, null);
     }
 
-    /**
-     * Reverted to standard JOIN for baseline testing
-     */
     public List<RecoveryPlan> getFilteredPlans(String program, String search) throws SQLException {
         List<RecoveryPlan> plans = new ArrayList<>();
         
@@ -83,9 +80,6 @@ public class RecoveryPlanBean {
         return plans;
     }
 
-    /**
-     * Reverted to no-parameter version to match your original Servlet
-     */
     public Map<String, Integer> getStatusCounts() throws SQLException {
         Map<String, Integer> counts = new HashMap<>();
         counts.put("ACTIVE", 0);
