@@ -1,28 +1,20 @@
 package servlet.user;
 
-import java.io.IOException;
-
-import ejb.UserBean;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+import ejb.UserBean;
 import model.User;
 
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    @EJB
-    private UserBean userBean;
+    @EJB private UserBean userBean;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
@@ -33,35 +25,23 @@ public class LoginServlet extends HttpServlet {
         request.getRequestDispatcher("/user/login.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        String u = req.getParameter("username");
+        String p = req.getParameter("password");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        User authenticatedUser = userBean.authenticateUser(u, p);
 
-        if (username == null || username.trim().isEmpty() ||
-            password == null || password.trim().isEmpty()) {
+        if (authenticatedUser != null) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", authenticatedUser);
+            session.setAttribute("userId", authenticatedUser.getId());
+            session.setAttribute("userRole", authenticatedUser.getRole());
+            session.setAttribute("username", authenticatedUser.getUsername());
 
-            request.setAttribute("error", "Username and password are required");
-            request.getRequestDispatcher("/user/login.jsp").forward(request, response);
-            return;
-        }
-
-        User user = userBean.authenticate(username, password);
-
-        if (user != null && user.isActive()) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userRole", user.getRole());
-            session.setAttribute("username", user.getUsername());
-
-            response.sendRedirect(request.getContextPath() + "/");
-
+            res.sendRedirect(req.getContextPath() + "/");
         } else {
-            request.setAttribute("error", "Invalid username or password, or account is deactivated");
-            request.getRequestDispatcher("/user/login.jsp").forward(request, response);
+        	req.setAttribute("error", "Invalid username or password");
+        	req.getRequestDispatcher("/user/login.jsp").forward(req, res);
         }
     }
 }
