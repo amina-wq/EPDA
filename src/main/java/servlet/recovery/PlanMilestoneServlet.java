@@ -42,11 +42,11 @@ public class PlanMilestoneServlet extends HttpServlet {
             request.setAttribute("candidates", candidates);
 
             // 4. Forward the request to the JSP file
-            // Note: Ensure the filename 'planMilestone.jsp' matches your file's case exactly.
+            
             request.getRequestDispatcher("/recovery/planMilestone.jsp").forward(request, response);
             
         } catch (Exception e) {
-            // Log the error and show a generic error message to the user
+            
             e.printStackTrace();
             throw new ServletException("Error loading the Recovery Plan Milestone page", e);
         }

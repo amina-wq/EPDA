@@ -83,9 +83,7 @@ public class RecoveryPlanBean {
         return plans;
     }
 
-    /**
-     * Reverted to no-parameter version to match your original Servlet
-     */
+    
     public Map<String, Integer> getStatusCounts() throws SQLException {
         Map<String, Integer> counts = new HashMap<>();
         counts.put("ACTIVE", 0);
